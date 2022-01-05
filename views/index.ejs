@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="msapplication-navbutton-color" content="#EFE">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Example">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="icon" type="image/jpg" sizes="32x32" href="calendar-icon.png">
+    <link rel="icon" type="image/jpg" sizes="96x96" href="calendar-icon.png">
+    <link rel="icon" type="image/jpg" sizes="16x16" href="calendar-icon.png">
+
+    <title>Doomsday Game</title>
+
+    <link rel="stylesheet" type="text/css" href="/index.css">
+
+
+  </head>
+
+  <body>
+
+    <ul id="navbar">
+      <li> <a href="/About">About</a> </li>
+      <li> <a href="/Download">Download.txt</a> </li>
+      <li class="right">
+        <label class="switch">
+          <input id="dark-mode" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </li>
+      <li class="right"> <span>Dark mode</span> </li>
+    </ul>
+    
+    <h1>Doomsday Game</h1>
+
+    <div id="date">
+      <%= date %>
+    </div>
+    
+
+    <form id="answer" action="/teste" method="post">
+      <label for="one">Sunday</label>
+      <input type="radio" id="zero" name="weekday" value="0" />
+  
+      <label for="two">Monday</label>
+      <input type="radio" id="one" name="weekday" value="1" />
+
+      <label for="two">Tuesday</label>
+      <input type="radio" id="two" name="weekday" value="2" />
+
+      <label for="two">Wednesday</label>
+      <input type="radio" id="three" name="weekday" value="3" />
+
+      <label for="two">Thursday</label>
+      <input type="radio" id="four" name="weekday" value="4" />
+
+      <label for="two">Friday</label>
+      <input type="radio" id="five" name="weekday" value="5" />
+
+      <label for="two">Saturday</label>
+      <input type="radio" id="six" name="weekday" value="6" />
+
+      <input type="submit" value="OK">
+    </form>
+
+    <ul id="buttons">
+      <a title="Enter" id="next" class="control">Submit</a>
+    </ul>
+
+    <script defer src="index.js"></script>
+  </body>
+</html>
