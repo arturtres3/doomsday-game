@@ -13,23 +13,22 @@ function randomDate(start, end) {
 
 let startDate = new Date(1900, 0, 1)
 let endDate = new Date(2100, 0, 1)
-var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+var options = {year: 'numeric', month: 'long', day: 'numeric' };
 
 //console.log(randomDate(new Date(2012, 0, 1), new Date()));
 
 app.get('/', (req, res) => {
-    res.render('index.ejs', {date: randomDate(startDate, endDate).toLocaleDateString("en-US", options)});
+    res.render('index.ejs', {date: randomDate(startDate, endDate)});
   });
 
 app.get('/next', (req, res) => {
-  res.send(randomDate(startDate, endDate).toLocaleDateString("en-US", options));
+  res.send({date: randomDate(startDate, endDate)});
 });
 
-app.post('/teste', (req, res) => {
+app.post('/answer', (req, res) => {
   console.log(req.body);
-  res.redirect('/')
-  //res.sendStatus(200)
-  //res.send(req.body)
+  res.send({value: req.body.correct == req.body.answer})
+  //res.json(req.body.date == req.body.weekday)
 })
 
 app.use(express.static(path.join(__dirname, 'public')));

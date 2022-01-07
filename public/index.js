@@ -1,24 +1,22 @@
-const next = document.getElementById('next')
-const date = document.getElementById('date')
+const submit = document.getElementById('submit')
+const date_display = document.getElementById('date-display')
 const answer = document.getElementById('answer')
+const dummyframe = document.getElementById('dummyframe')
 const dark_mode = document.getElementById("dark-mode");
 const root = document.querySelector(':root');
 
 let theme = "light"
-//function currentId() {return container_display.dataset.tweetid}
+
+let startDate = new Date(1900, 0, 1)
+let endDate = new Date(2100, 0, 1)
+var options = {year: 'numeric', month: 'long', day: 'numeric' };
+
+function randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
 
 window.onload = () => {
-//     // salva o primeiro id
-//     history.add(currentId());
-// 
-//     // reativa os botoes quando carrega um tweet
-//     twttr.ready(function (twttr) {
-//         twttr.events.bind('rendered', function (event) {
-//             next.classList.remove("disable")
-//             if(!history.isOnEnd(currentId()))
-//                 back.classList.remove("disable")
-//         });
-//     });
+    
 }
 
 dark_mode.onchange = () => {
@@ -70,37 +68,39 @@ function httpGetAsync(theUrl, callback)
     xmlHttp.send(null);
 }
 
-function httpPostAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("POST", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
+function setNewDate(newDate){
+    document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' })
+    document.getElementById("year").innerHTML = "Year: " + newDate.toLocaleDateString("en-US", {year: 'numeric'})
+    document.getElementById("month").innerHTML = "Month: " + newDate.toLocaleDateString("en-US", {month: 'numeric'})
+    document.getElementById("day").innerHTML = "Day: " + newDate.toLocaleDateString("en-US", {day: 'numeric'})
+
+    document.getElementsByName("correct")[0].value = newDate.getDay()
+    document.getElementsByName("JSONdate")[0].value = JSON.stringify(newDate)
 }
 
-function formSubmit(event) {
-    var url = "/teste";
-    var request = new XMLHttpRequest();
-    request.open('POST', url, true);
-    request.onload = function() { // request successful
-    // we can use server response to our request now
-      console.log(request.responseText);
-    };
-  
-    request.onerror = function() {
-      // request failed
-    };
-  
-    request.send(new FormData(event.target)); // create FormData from form that triggered event
-    event.preventDefault();
-  }
+submit.addEventListener('click', () => {
+    const formData = Object.fromEntries(new FormData(answer).entries());
+    console.log(JSON.stringify(formData))
+    //console.log(new Date(JSON.parse(formData.JSONdate)));
 
-answer.addEventListener('submit', formSubmit)
+    httpGetAsync('/next', (response) => { 
+        setNewDate(new Date(JSON.parse(response).date)) 
+    })
 
-next.addEventListener('click', () => {
-    answer.submit()
-    
+    //answer.reset()
+
 })
+// date.toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' })
+
+// dummyframe.onload = () => {
+// 
+//     var doc = dummyframe.contentDocument || dummyframe.contentWindow.document;
+//     if(doc){
+//         let response = JSON.parse(doc.getElementsByTagName('pre')[0].innerHTML)
+// 
+//         if(response.value) {date_display.style.color = "green"}
+// 
+//         
+//         
+//     }
+// }

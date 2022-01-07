@@ -35,42 +35,56 @@
       </li>
       <li class="right"> <span>Dark mode</span> </li>
     </ul>
-    
-    <h1>Doomsday Game</h1>
 
-    <div id="date">
-      <%= date %>
+    <div class="main">
+      
+      <h1 id="title">Doomsday Game</h1>
+
+      <div id="date-display">
+        <h1 id="full_date">
+          <%= date.toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </h1>
+        <h3 id="year">Year: <%= date.toLocaleDateString("en-US", {year: 'numeric'}) %></h3>
+        <h3 id="month">Month: <%= date.toLocaleDateString("en-US", {month: 'numeric'}) %></h3>
+        <h3 id="day">Day: <%= date.toLocaleDateString("en-US", {day: 'numeric' }) %></h3>
+
+      </div>
+
+      <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+      <form id="answer" action="/answer" target="dummyframe" method="post">
+
+        <input type="text" name="correct" value=<%= date.getDay() %> >
+        <input type="text" name="JSONdate" value=<%= JSON.stringify(date) %> >
+
+        <input type="radio" id="zero" name="answer" value="0" />
+        <label class="radio-label" for="zero"> Sunday </label>
+
+        <input type="radio" id="one" name="answer" value="1" />
+        <label class="radio-label" for="one"> Monday </label>
+
+        <input type="radio" id="two" name="answer" value="2" />
+        <label class="radio-label" for="two"> Tuesday </label>
+
+        <input type="radio" id="three" name="answer" value="3" />
+        <label class="radio-label" for="three"> Wednesday </label>
+
+        <input type="radio" id="four" name="answer" value="4" />
+        <label class="radio-label" for="four"> Thursday </label>
+
+        <input type="radio" id="five" name="answer" value="5" />
+        <label class="radio-label" for="five"> Friday </label>
+
+        <input type="radio" id="six" name="answer" value="6" />
+        <label class="radio-label" for="six"> Saturday </label>
+
+      </form>
+
+      <ul id="buttons">
+        <a title="Enter" id="submit" class="control">Submit</a>
+      </ul>
+      
     </div>
-    
-
-    <form id="answer" action="/teste" method="post">
-      <label for="one">Sunday</label>
-      <input type="radio" id="zero" name="weekday" value="0" />
-  
-      <label for="two">Monday</label>
-      <input type="radio" id="one" name="weekday" value="1" />
-
-      <label for="two">Tuesday</label>
-      <input type="radio" id="two" name="weekday" value="2" />
-
-      <label for="two">Wednesday</label>
-      <input type="radio" id="three" name="weekday" value="3" />
-
-      <label for="two">Thursday</label>
-      <input type="radio" id="four" name="weekday" value="4" />
-
-      <label for="two">Friday</label>
-      <input type="radio" id="five" name="weekday" value="5" />
-
-      <label for="two">Saturday</label>
-      <input type="radio" id="six" name="weekday" value="6" />
-
-      <input type="submit" value="OK">
-    </form>
-
-    <ul id="buttons">
-      <a title="Enter" id="next" class="control">Submit</a>
-    </ul>
 
     <script defer src="index.js"></script>
   </body>
