@@ -3,6 +3,8 @@ const date_display = document.getElementById('date-display')
 const answer = document.getElementById('answer')
 const dark_mode = document.getElementById("dark-mode");
 const history = document.getElementById("history");
+const entries = document.getElementById("entries");
+const bottom_line = document.getElementById("bottom-line");
 const root = document.querySelector(':root');
 
 let theme = "light"
@@ -68,13 +70,11 @@ function setNewDate(newDate){
 submit.addEventListener('click', () => {
     const formData = Object.fromEntries(new FormData(answer).entries());
     console.log(JSON.stringify(formData))
-    //console.log(new Date(JSON.parse(formData.JSONdate)));
 
-
-    
     const newHist = document.createElement("div");
     const your = document.createElement("div");
     const correct = document.createElement("div");
+    
     your.innerHTML = `Você: ${dayOfWeekAsString(formData.answer)}`
     correct.innerHTML = `Correta: ${currentDate.toLocaleDateString('pt-BR', {weekday: 'long'})}`
     newHist.classList.add("hist-entry")
@@ -86,11 +86,15 @@ submit.addEventListener('click', () => {
     }
     newHist.appendChild(your)
     newHist.appendChild(correct)
-    history.appendChild(newHist)
+    entries.appendChild(newHist)
 
     history.scrollTop = history.scrollHeight
+
+    if(history.scrollHeight > history.clientHeight){
+        bottom_line.style.setProperty('display', 'inherit')
+    }
     
     setNewDate(randomDate(startDate, endDate))
-    //answer.reset()
+    answer.reset()
 
 })
