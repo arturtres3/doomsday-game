@@ -1,37 +1,45 @@
 const submit = document.getElementById('submit')
 const date_display = document.getElementById('date-display')
 const answer = document.getElementById('answer')
-const dummyframe = document.getElementById('dummyframe')
 const dark_mode = document.getElementById("dark-mode");
+const history = document.getElementById("history");
 const root = document.querySelector(':root');
 
 let theme = "light"
 
 let startDate = new Date(1900, 0, 1)
 let endDate = new Date(2100, 0, 1)
-var options = {year: 'numeric', month: 'long', day: 'numeric' };
+const options = {year: 'numeric', month: 'long', day: 'numeric' };
+
+let currentDate = new Date()
+
+function dayOfWeekAsString(dayIndex) {
+    // return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
+    return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
+  }
 
 function randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
 window.onload = () => {
-    
+    setNewDate(randomDate(startDate, endDate))
 }
 
 dark_mode.onchange = () => {
     if (dark_mode.checked){
         document.body.classList.add("dark-mode")
         root.style.setProperty('--accent-color', 'lightgray')
+        date_display.style.setProperty('color', 'lightgrey')
+        date_display.style.setProperty('background-color', 'var(--dark-bg)')
         theme = "dark"
     }else{
 	    document.body.classList.remove("dark-mode")
+        date_display.style.setProperty('background-color', 'var(--accent-color)')
+        date_display.style.setProperty('color', 'black')
         root.style.setProperty('--accent-color', 'white')
         theme = "light"
     }
-    // loadNewTweet(container_previous.dataset.tweetid, container_previous)
-    // loadNewTweet(container_display.dataset.tweetid, container_display)
-    // loadNewTweet(container_next.dataset.tweetid, container_next)
 }
 
 document.addEventListener('keyup', function (event) {
@@ -42,40 +50,19 @@ document.addEventListener('keyup', function (event) {
     let key = event.key || event.keyCode;
 
     if (key === 'Enter' || key === 13){
-        if(!next.classList.contains("disable"))
-            next.click()
+        if(!submit.classList.contains("disable"))
+            submit.click()
     }
-    // if (key === 'Backspace' || key === 8){
-    //     if(!back.classList.contains("disable"))
-    //         back.click()
-    // }
-    // if (key === 'r' || key === 82){
-    //     if(!random.classList.contains("hide"))
-    //         random.click()
-    // }
-
 })
 
-// recebe uma nova data da rota /next (funcao copiada)
-function httpGetAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
-}
-
 function setNewDate(newDate){
-    document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' })
-    document.getElementById("year").innerHTML = "Year: " + newDate.toLocaleDateString("en-US", {year: 'numeric'})
-    document.getElementById("month").innerHTML = "Month: " + newDate.toLocaleDateString("en-US", {month: 'numeric'})
-    document.getElementById("day").innerHTML = "Day: " + newDate.toLocaleDateString("en-US", {day: 'numeric'})
+    document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("pt-BR", {year: 'numeric', month: 'long', day: 'numeric' })
+    // document.getElementById("year").innerHTML = "Year: " + newDate.toLocaleDateString("en-US", {year: 'numeric'})
+    // document.getElementById("month").innerHTML = "Month: " + newDate.toLocaleDateString("en-US", {month: 'numeric'})
+    // document.getElementById("day").innerHTML = "Day: " + newDate.toLocaleDateString("en-US", {day: 'numeric'})
+    document.getElementById("date-num").innerHTML = newDate.toLocaleDateString("pt-BR")
 
-    document.getElementsByName("correct")[0].value = newDate.getDay()
-    document.getElementsByName("JSONdate")[0].value = JSON.stringify(newDate)
+    currentDate = newDate
 }
 
 submit.addEventListener('click', () => {
@@ -83,24 +70,27 @@ submit.addEventListener('click', () => {
     console.log(JSON.stringify(formData))
     //console.log(new Date(JSON.parse(formData.JSONdate)));
 
-    httpGetAsync('/next', (response) => { 
-        setNewDate(new Date(JSON.parse(response).date)) 
-    })
 
+    
+    const newHist = document.createElement("div");
+    const your = document.createElement("div");
+    const correct = document.createElement("div");
+    your.innerHTML = `Você: ${dayOfWeekAsString(formData.answer)}`
+    correct.innerHTML = `Correta: ${currentDate.toLocaleDateString('pt-BR', {weekday: 'long'})}`
+    newHist.classList.add("hist-entry")
+    newHist.innerHTML = currentDate.toLocaleDateString("pt-BR")
+    if(formData.answer == currentDate.getDay()){
+        newHist.style.setProperty('background-color', 'var(--right)')
+    }else{
+        newHist.style.setProperty('background-color', 'var(--wrong)')
+    }
+    newHist.appendChild(your)
+    newHist.appendChild(correct)
+    history.appendChild(newHist)
+
+    history.scrollTop = history.scrollHeight
+    
+    setNewDate(randomDate(startDate, endDate))
     //answer.reset()
 
 })
-// date.toLocaleDateString("en-US", {year: 'numeric', month: 'long', day: 'numeric' })
-
-// dummyframe.onload = () => {
-// 
-//     var doc = dummyframe.contentDocument || dummyframe.contentWindow.document;
-//     if(doc){
-//         let response = JSON.parse(doc.getElementsByTagName('pre')[0].innerHTML)
-// 
-//         if(response.value) {date_display.style.color = "green"}
-// 
-//         
-//         
-//     }
-// }
