@@ -5,6 +5,7 @@ const dark_mode = document.getElementById("dark-mode");
 const history = document.getElementById("history");
 const entries = document.getElementById("entries");
 const bottom_line = document.getElementById("bottom-line");
+const clear_hist = document.getElementById("clear-hist");
 const root = document.querySelector(':root');
 
 let theme = "light"
@@ -14,6 +15,7 @@ let endDate = new Date(2100, 0, 1)
 const options = {year: 'numeric', month: 'long', day: 'numeric' };
 
 let currentDate = new Date()
+let historyList = []
 
 function dayOfWeekAsString(dayIndex) {
     // return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
@@ -26,6 +28,15 @@ function randomDate(start, end) {
 
 window.onload = () => {
     setNewDate(randomDate(startDate, endDate))
+    historyList = retrieveHistory()
+    historyList.forEach(entry => {
+        makeHistoryEntry(new Date(JSON.parse(entry.date)), entry.answer)
+    })
+}
+
+window.onbeforeunload = () => {
+   saveHistory(historyList)
+   return null;
 }
 
 dark_mode.onchange = () => {
@@ -59,27 +70,21 @@ document.addEventListener('keyup', function (event) {
 
 function setNewDate(newDate){
     document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("pt-BR", {year: 'numeric', month: 'long', day: 'numeric' })
-    // document.getElementById("year").innerHTML = "Year: " + newDate.toLocaleDateString("en-US", {year: 'numeric'})
-    // document.getElementById("month").innerHTML = "Month: " + newDate.toLocaleDateString("en-US", {month: 'numeric'})
-    // document.getElementById("day").innerHTML = "Day: " + newDate.toLocaleDateString("en-US", {day: 'numeric'})
     document.getElementById("date-num").innerHTML = newDate.toLocaleDateString("pt-BR")
 
     currentDate = newDate
 }
 
-submit.addEventListener('click', () => {
-    const formData = Object.fromEntries(new FormData(answer).entries());
-    console.log(JSON.stringify(formData))
-
+function makeHistoryEntry(date, answer){
     const newHist = document.createElement("div");
     const your = document.createElement("div");
     const correct = document.createElement("div");
-    
-    your.innerHTML = `Você: ${dayOfWeekAsString(formData.answer)}`
-    correct.innerHTML = `Correta: ${currentDate.toLocaleDateString('pt-BR', {weekday: 'long'})}`
+
+    your.innerHTML = `Você: ${dayOfWeekAsString(answer)}`
+    correct.innerHTML = `Correta: ${date.toLocaleDateString('pt-BR', {weekday: 'long'})}`
     newHist.classList.add("hist-entry")
-    newHist.innerHTML = currentDate.toLocaleDateString("pt-BR")
-    if(formData.answer == currentDate.getDay()){
+    newHist.innerHTML = date.toLocaleDateString("pt-BR")
+    if(answer == date.getDay()){
         newHist.style.setProperty('background-color', 'var(--right)')
     }else{
         newHist.style.setProperty('background-color', 'var(--wrong)')
@@ -89,12 +94,41 @@ submit.addEventListener('click', () => {
     entries.appendChild(newHist)
 
     history.scrollTop = history.scrollHeight
+}
+
+function saveHistory(histList){
+    localStorage.setItem('history', JSON.stringify(histList))
+}
+
+function clearHist(){
+    historyList = []
+    localStorage.removeItem('history')
+    // while (entries.firstChild) {
+    //     entries.removeChild(entries.lastChild);
+    // }
+}
+
+function retrieveHistory(){
+    return JSON.parse(localStorage.getItem('history')) || []
+}
+
+clear_hist.addEventListener('click', () => {
+    clearHist()
+})
+
+submit.addEventListener('click', () => {
+    const formData = Object.fromEntries(new FormData(answer).entries());
+    console.log(JSON.stringify(formData))
+
+    makeHistoryEntry(currentDate, formData.answer)
+
+    historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
 
     if(history.scrollHeight > history.clientHeight){
         bottom_line.style.setProperty('display', 'inherit')
     }
     
     setNewDate(randomDate(startDate, endDate))
-    answer.reset()
 
+    answer.reset()
 })
