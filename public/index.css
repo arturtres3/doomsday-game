@@ -15,7 +15,7 @@ body {
   position: relative;
   text-align: center;
   margin: auto;
-  font-family: sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   overflow: overlay;
 }
 .dark-mode{
@@ -100,28 +100,14 @@ body {
   padding: 12px 16px;
   font-weight: bolder;
 }
-/* #navbar li a {
-  display: block;
-  -webkit-text-stroke: 0.1px var(--accent-color);
-  text-decoration: none;
-} */
-/* #navbar span{
-  text-align: center;
-  color: var(--main-color);
-  -webkit-text-stroke: 0.1px var(--accent-color);
-  font-size: 18px;
-  padding: 12px 16px;
-  margin: auto;
-  font-weight: bolder;
-} */
 #navbar .range{
   float: right;
   font-size: 20px;
+  max-width: 100px;
 }
 
 
 #buttons {
-  /* position: fixed; */
   bottom: 10%;
   left: 0;
   right: 0;
