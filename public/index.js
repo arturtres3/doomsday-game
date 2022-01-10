@@ -10,11 +10,8 @@ const apply_range = document.getElementById("apply-range");
 const range_inputs = document.getElementsByClassName("range");
 const root = document.querySelector(':root');
 
-let theme = "light"
-
 let startDate = new Date(1900, 0, 1)
 let endDate = new Date(2100, 0, 1)
-// const options = {year: 'numeric', month: 'long', day: 'numeric' };
 
 let currentDate = new Date()
 let historyList = []
@@ -31,6 +28,7 @@ function randomDate(start, end) {
 window.onload = () => {
     historyList = retrieveHistory()
     retrieveAndSetRange()
+    retrieveAndSetDarkMode()
 
     setNewDate(randomDate(startDate, endDate))
 
@@ -46,18 +44,16 @@ window.onbeforeunload = () => {
 
 dark_mode.onchange = () => {
     if (dark_mode.checked){
-        document.body.classList.add("dark-mode")
         root.style.setProperty('--accent-color', 'lightgray')
-        date_display.style.setProperty('color', 'lightgrey')
-        date_display.style.setProperty('background-color', 'var(--dark-bg)')
-        theme = "dark"
+        root.style.setProperty('--background-color', 'darkgray')
+        date_display.classList.add('dark-date')
     }else{
-	    document.body.classList.remove("dark-mode")
-        date_display.style.setProperty('background-color', 'var(--accent-color)')
-        date_display.style.setProperty('color', 'black')
         root.style.setProperty('--accent-color', 'white')
-        theme = "light"
+        root.style.setProperty('--background-color', 'lightgrey')
+        date_display.classList.remove('dark-date')
     }
+
+    saveDarkMode()
 }
 
 document.addEventListener('keyup', function (event) {
@@ -151,6 +147,15 @@ function retrieveAndSetRange(){
     const end = JSON.parse(localStorage.getItem('end_date')) || 2100
 
     setRange(Number(start), Number(end))
+}
+
+function saveDarkMode(){
+    localStorage.setItem('dark_mode', dark_mode.checked)
+}
+
+function retrieveAndSetDarkMode(){
+    dark_mode.checked = localStorage.getItem('dark_mode') === "true"
+    dark_mode.dispatchEvent(new Event('change'))
 }
 
 clear_hist.addEventListener('click', () => {
