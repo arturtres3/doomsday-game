@@ -26,14 +26,16 @@
   <body>
 
     <ul id="navbar">
-      <li> <a id="clear-hist" href="/">Apagar Histórico</a></li>
-      <!-- <li> <a href="/">Teste</a> </li> -->
-      <li style="visibility: hidden;">
+      <li>Desde: <input id="since" class="range" type="number" min="500" max="3000" step="10"> </li>
+      <li>Até: <input id="until" class="range" type="number" min="500" max="3000" step="10"> </li>
+      <li class="button" id="apply-range">Aplicar Intervalo</li>
+      <li class="button" id="clear-hist">Apagar Histórico</li>
+      <li>
+        Dark mode
         <label class="switch">
           <input id="dark-mode" type="checkbox">
           <span class="slider"></span>
         </label>
-        <span>Dark mode</span>
       </li>
     </ul>
 
@@ -44,9 +46,6 @@
       <div id="date-display">
         <h1 id="full_date"></h1>
         <h3 id="date-num"></h3>
-        <!-- <h3 id="year">Year:</h3>
-        <h3 id="month">Month:</h3>
-        <h3 id="day">Day:</h3> -->
       </div>
 
       <form id="answer">

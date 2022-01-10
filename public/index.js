@@ -6,13 +6,15 @@ const history = document.getElementById("history");
 const entries = document.getElementById("entries");
 const bottom_line = document.getElementById("bottom-line");
 const clear_hist = document.getElementById("clear-hist");
+const apply_range = document.getElementById("apply-range");
+const range_inputs = document.getElementsByClassName("range");
 const root = document.querySelector(':root');
 
 let theme = "light"
 
 let startDate = new Date(1900, 0, 1)
 let endDate = new Date(2100, 0, 1)
-const options = {year: 'numeric', month: 'long', day: 'numeric' };
+// const options = {year: 'numeric', month: 'long', day: 'numeric' };
 
 let currentDate = new Date()
 let historyList = []
@@ -20,15 +22,18 @@ let historyList = []
 function dayOfWeekAsString(dayIndex) {
     // return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
     return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
-  }
+}
 
 function randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
 window.onload = () => {
-    setNewDate(randomDate(startDate, endDate))
     historyList = retrieveHistory()
+    retrieveAndSetRange()
+
+    setNewDate(randomDate(startDate, endDate))
+
     historyList.forEach(entry => {
         makeHistoryEntry(new Date(JSON.parse(entry.date)), entry.answer)
     })
@@ -63,10 +68,30 @@ document.addEventListener('keyup', function (event) {
     let key = event.key || event.keyCode;
 
     if (key === 'Enter' || key === 13){
-        if(!submit.classList.contains("disable"))
-            submit.click()
+        if(!submit.classList.contains("disable")){
+            // submit.click()
+        }
     }
 })
+
+function applyUserRange(){
+
+    setRange(document.getElementById('since').value,
+             document.getElementById('until').value)
+
+    saveRange()
+
+    setNewDate(randomDate(startDate, endDate))
+}
+
+function setRange(start, end){
+    document.getElementById('since').value = start
+    document.getElementById('until').value = end
+
+    startDate = new Date(start, 0, 1)
+    endDate = new Date(end, 0, 1)
+    // console.log(`since: ${start}, until: ${end}`);
+}
 
 function setNewDate(newDate){
     document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("pt-BR", {year: 'numeric', month: 'long', day: 'numeric' })
@@ -94,39 +119,53 @@ function makeHistoryEntry(date, answer){
     entries.appendChild(newHist)
 
     history.scrollTop = history.scrollHeight
+
+    if(history.scrollHeight > history.clientHeight){
+        bottom_line.style.setProperty('display', 'inherit')
+    }
 }
 
 function saveHistory(histList){
     localStorage.setItem('history', JSON.stringify(histList))
 }
 
-function clearHist(){
+function clearHistory(){
     historyList = []
     localStorage.removeItem('history')
-    // while (entries.firstChild) {
-    //     entries.removeChild(entries.lastChild);
-    // }
+    while (entries.firstChild) {
+        entries.removeChild(entries.lastChild);
+    }
 }
 
 function retrieveHistory(){
     return JSON.parse(localStorage.getItem('history')) || []
 }
 
+function saveRange(){
+    localStorage.setItem('start_date', startDate.toLocaleDateString("pt-BR", {year: 'numeric'}) )
+    localStorage.setItem('end_date', endDate.toLocaleDateString("pt-BR", {year: 'numeric'}) )
+}
+
+function retrieveAndSetRange(){
+    const start = JSON.parse(localStorage.getItem('start_date')) || 1900
+    const end = JSON.parse(localStorage.getItem('end_date')) || 2100
+
+    setRange(Number(start), Number(end))
+}
+
 clear_hist.addEventListener('click', () => {
-    clearHist()
+    clearHistory()
+})
+
+apply_range.addEventListener('click', () => {
+    applyUserRange()
 })
 
 submit.addEventListener('click', () => {
     const formData = Object.fromEntries(new FormData(answer).entries());
-    console.log(JSON.stringify(formData))
 
     makeHistoryEntry(currentDate, formData.answer)
-
     historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
-
-    if(history.scrollHeight > history.clientHeight){
-        bottom_line.style.setProperty('display', 'inherit')
-    }
     
     setNewDate(randomDate(startDate, endDate))
 
