@@ -275,7 +275,7 @@ a li:active{
     margin: 4px;
   }
   .history{
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     height: 40%;
     width: 100%;
