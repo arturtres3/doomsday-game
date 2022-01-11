@@ -7,6 +7,7 @@ const entries = document.getElementById("entries");
 const bottom_line = document.getElementById("bottom-line");
 const clear_hist = document.getElementById("clear-hist");
 const apply_range = document.getElementById("apply-range");
+const hamburger = document.getElementById("hamburger");
 const range_inputs = document.getElementsByClassName("range");
 const root = document.querySelector(':root');
 
@@ -115,6 +116,7 @@ function makeHistoryEntry(date, answer){
     entries.appendChild(newHist)
 
     history.scrollTop = history.scrollHeight
+    entries.scrollLeft = entries.scrollWidth;
 
     if(history.scrollHeight > history.clientHeight){
         bottom_line.style.setProperty('display', 'inherit')
@@ -157,6 +159,17 @@ function retrieveAndSetDarkMode(){
     dark_mode.checked = localStorage.getItem('dark_mode') === "true"
     dark_mode.dispatchEvent(new Event('change'))
 }
+
+hamburger.addEventListener('click', () => {
+    const nav = document.getElementById("navbar")
+
+    if(nav.style.display == 'block'){
+        nav.style.display = 'none'
+    }else{
+        nav.style.display = 'block'
+    }
+    // console.log(nav.style.display);
+})
 
 clear_hist.addEventListener('click', () => {
     clearHistory()

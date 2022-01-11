@@ -77,7 +77,7 @@ body {
 
 
 #navbar{  
-  /* visibility: hidden; */
+  display: block;
   padding: 10% 0 0 0;
   float: left;
   width: 20%;
@@ -104,6 +104,9 @@ body {
   float: right;
   font-size: 20px;
   max-width: 100px;
+}
+#hamburger{
+  display: none;
 }
 
 
@@ -187,6 +190,9 @@ a{
   color: lightgrey !important;
 }
 
+.hide{
+  display: none;
+}
 
 
 
@@ -220,24 +226,92 @@ a li:active{
 
 
 @media screen and (max-width: 700px){
-  .about{
-    width: 70%;
-    font-size: 12px;
+  * {
+    /* outline: 0.5px solid rgb(0, 38, 255) !important; */
   }
-  #tweet-container-display{
-    width: 95%;
+  #navbar{
+    display: none;
+    top: 0;
+    float: none;
+    padding-top: 0;
+    width: 90%;
+    margin: auto;
+  }
+  #hamburger{
+    margin-top: 3px;
+    width: 35px;
+    height: 35px;
+    background-image: url(menu.jpg);
+    background-size: 35px;
+    background-repeat: no-repeat;
+    display: inline-block;
+  }
+  #title{
+    font-size: 50px;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  .main{
+    width: 100%;
+    margin: auto;
+    margin-top: 0;
+  }
+  #date-display{
+    max-width: 80%;
+  }
+  #date-display h1{
+    font-size: 27px;
+  }
+  #answer{
+    width: 80%;
+  }
+  .control{
+    font-size: 22px;
+    padding: 5px;
+  }
+  .radio-label{
+    font-size: 20px;
+    padding: 5px;
+    margin: 4px;
+  }
+  .history{
+    /* position: absolute; */
+    bottom: 0;
+    height: 40%;
+    width: 100%;
+  }
+  .history h2{
+    padding-top: 30px;
+  }
+  .history #bottom-line{
+    display: none;
+  }
+  #entries{
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;  
+  }
+  .hist-entry{
+    display: inline-block;
+    font-size: 12px;
+    width: 30%;
+    margin: 10px 5px;
   }
 }
 @media screen and (max-width: 400px){
-  li{
-    font-size: 15px;
-    margin: 0 2px;
+  #title{
+    font-size: 36px;
   }
-  ul {
-    margin-top: 15%;
+  #date-display{
+    width: 70%;
   }
-  .about{
-    padding: 3%;
-    width: 95%;
+  #date-display h1{
+    font-size: 20px;
+  }
+  .hist-entry{
+    width: 40%;
+  } 
+  #answer{
+    width: 90%;
   }
 }
