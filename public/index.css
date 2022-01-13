@@ -226,9 +226,9 @@ a li:active{
 
 
 @media screen and (max-width: 700px){
-  * {
-    /* outline: 0.5px solid rgb(0, 38, 255) !important; */
-  }
+  /* * {
+    outline: 0.5px solid rgb(0, 38, 255) !important;
+  } */
   #navbar{
     display: none;
     top: 0;
@@ -295,7 +295,7 @@ a li:active{
   .hist-entry{
     display: inline-block;
     font-size: 12px;
-    width: 30%;
+    width: 35%;
     margin: 10px 5px;
   }
 }

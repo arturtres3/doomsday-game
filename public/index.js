@@ -11,6 +11,8 @@ const hamburger = document.getElementById("hamburger");
 const range_inputs = document.getElementsByClassName("range");
 const root = document.querySelector(':root');
 
+const language = document.documentElement.lang == 'pt' ? 'pt-BR' : 'en-US'
+
 let startDate = new Date(1900, 0, 1)
 let endDate = new Date(2100, 0, 1)
 
@@ -18,8 +20,10 @@ let currentDate = new Date()
 let historyList = []
 
 function dayOfWeekAsString(dayIndex) {
-    // return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
-    return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
+    if(language == "pt-BR")
+        return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
+    else
+        return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
 }
 
 function randomDate(start, end) {
@@ -91,8 +95,8 @@ function setRange(start, end){
 }
 
 function setNewDate(newDate){
-    document.getElementById("full_date").innerHTML = newDate.toLocaleDateString("pt-BR", {year: 'numeric', month: 'long', day: 'numeric' })
-    document.getElementById("date-num").innerHTML = newDate.toLocaleDateString("pt-BR")
+    document.getElementById("full_date").innerHTML = newDate.toLocaleDateString(language, {year: 'numeric', month: 'long', day: 'numeric' })
+    document.getElementById("date-num").innerHTML = newDate.toLocaleDateString(language)
 
     currentDate = newDate
 }
@@ -102,10 +106,12 @@ function makeHistoryEntry(date, answer){
     const your = document.createElement("div");
     const correct = document.createElement("div");
 
-    your.innerHTML = `Você: ${dayOfWeekAsString(answer)}`
-    correct.innerHTML = `Correta: ${date.toLocaleDateString('pt-BR', {weekday: 'long'})}`
+    const tags = language == "pt-BR" ? ["Você:", "Correta:"] : ["Your:", "Answer:"]
+
+    your.innerHTML = `${tags[0]} ${dayOfWeekAsString(answer)}`
+    correct.innerHTML = `${tags[1]} ${date.toLocaleDateString(language, {weekday: 'long'})}`
     newHist.classList.add("hist-entry")
-    newHist.innerHTML = date.toLocaleDateString("pt-BR")
+    newHist.innerHTML = date.toLocaleDateString(language)
     if(answer == date.getDay()){
         newHist.style.setProperty('background-color', 'var(--right)')
     }else{

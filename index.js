@@ -1,10 +1,17 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+
+    if(req.headers['accept-language'].includes("pt-BR")){
+      res.render('indexPT.ejs')
+    }else{
+      res.render('indexEN.ejs')
+    }
+    
   });
 
 app.use(express.static(path.join(__dirname, 'public')));
