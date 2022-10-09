@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+  <head>
+
+    <%- include('include/header'); -%>
+
+    <% const days = {
+        'en' : ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        'pt' : ["Domingo", "Segunda","Terça","Quarta","Quinta","Sexta","Sábado"]
+    }%>
+
+    <% const page = {
+        'en' : ["From: ", "Until: ", "Apply Range" , "Clear History", "Submit", "History"],
+        'pt' : ["Desde: ", "Até: ", "Aplicar Intervalo", "Apagar Histórico", "Enviar", "Histórico"]
+    }%>
+
+  </head>
+
+  <body>
+    <div id="hamburger"></div>
+
+    <ul id="navbar">
+      <li>  <%= page[lang][0] %>  <input id="since" class="range" type="number" min="500" max="3000" step="10"> </li>
+      <li>  <%= page[lang][1] %>  <input id="until" class="range" type="number" min="500" max="3000" step="10"> </li>
+      <li class="button" id="apply-range">  <%= page[lang][2] %>  </li>
+      <li class="button" id="clear-hist">  <%= page[lang][3] %>  </li>
+      <li>
+        Dark mode
+        <label class="switch">
+          <input id="dark-mode" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </li>
+    </ul>
+
+    <div class="main">
+      
+      <h1 id="title">Doomsday Game</h1> 
+
+      <div id="date-display">
+        <h1 id="full_date"></h1>
+        <h3 id="date-num"></h3>
+      </div>
+
+      <form id="answer">
+
+        <% for(let i = 0; i <= 6; i++) {%>
+            <input type="radio" id="<%= i %>" name="answer" value="<%= i %>" />
+            <label class="radio-label" for="<%= i %>"> <%= days[lang][i] %> </label>
+        <% }; %>
+
+      </form>
+
+      <ul id="buttons">
+        <a title="Enter" id="submit" class="control">  <%= page[lang][4] %>  </a>
+      </ul>
+      
+    </div>
+
+    <div id="history" class="history">
+
+      <h2>  <%= page[lang][5] %>  </h2>
+      <div id="entries"></div>
+      <div id="bottom-line"></div>
+
+    </div>
+
+    <script defer src="index.js"></script>
+  </body>
+</html>

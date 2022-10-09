@@ -6,11 +6,9 @@ const app = express();
 
 app.get('/', (req, res) => {
 
-    if(req.headers['accept-language'].includes("pt-BR")){
-      res.render('indexPT.ejs')
-    }else{
-      res.render('indexEN.ejs')
-    }
+    let lang = req.headers['accept-language'].includes("pt-BR") ? 'pt' : 'en'
+
+    res.render('index.ejs', {lang: lang})
     
   });
 
