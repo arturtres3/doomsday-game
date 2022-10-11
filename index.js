@@ -6,8 +6,10 @@ const app = express();
 
 app.get('/', (req, res) => {
 
-    // testar pt-PT também e todos pt
-    let lang = req.headers['accept-language'].includes("pt-BR") ? 'pt' : 'en'
+    let accepted_languages = req.headers['accept-language']
+    let lang =  accepted_languages.includes("pt") || 
+                accepted_languages.includes("pt-BR") ||
+                accepted_languages.includes("pt-PT")  ? 'pt' : 'en'
 
     res.render('index.ejs', {lang: lang})
     
