@@ -30,7 +30,13 @@ function setNewDate(newDate){
     currentDate = newDate
 }
 
-function makeHistoryEntry(date, answer){
+/**
+ * Cria elemento do histórico
+ * @param {Date} date - data da pergunta
+ * @param {int} answer - resposta no form
+ * @param {boolean} isNew - nova resposta ou carregando historico da mem local 
+ */
+function makeHistoryEntry(date, answer, isNew){
     const newHist = document.createElement("div");
     const your = document.createElement("div");
     const correct = document.createElement("div");
@@ -56,6 +62,9 @@ function makeHistoryEntry(date, answer){
     if(history.scrollHeight > history.clientHeight){
         bottom_line.style.setProperty('display', 'inherit')
     }
+
+    // animacao em novas entradas
+    if(isNew){highlight(newHist)}
 }
 
 function clearHistory(){
@@ -71,7 +80,7 @@ function submitAnswer(){
 
     // if answer = empty, não enviar
 
-    makeHistoryEntry(currentDate, formData.answer)
+    makeHistoryEntry(currentDate, formData.answer, true)
     historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
     
     setNewDate(randomDate(startDate, endDate))

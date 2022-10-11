@@ -8,7 +8,7 @@ window.onload = () => {
     setNewDate(randomDate(startDate, endDate))
 
     historyList.forEach(entry => {
-        makeHistoryEntry(new Date(JSON.parse(entry.date)), entry.answer)
+        makeHistoryEntry(new Date(JSON.parse(entry.date)), entry.answer, false)
     })
 }
 
@@ -70,3 +70,15 @@ apply_range.addEventListener('click', () => {
 submit.addEventListener('click', () => {
     submitAnswer()
 })
+
+function highlight(element) {
+    accent = '4px dashed gold'
+    normal = '1px solid var(--accent-color)'
+
+    setTimeout(function() {
+        element.style.border = (element.style.border == accent) ? normal : accent
+    }, 0);
+    setTimeout(function() {
+        element.style.border = (element.style.border == accent) ? normal : accent
+    }, 800);
+ }
