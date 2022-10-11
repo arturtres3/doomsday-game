@@ -71,6 +71,10 @@ submit.addEventListener('click', () => {
     submitAnswer()
 })
 
+/**
+ * Faz animacao destacando elemento (entradas no historico)
+ * @param {HTMLElement} element - 
+ */
 function highlight(element) {
     accent = '4px dashed gold'
     normal = '1px solid var(--accent-color)'

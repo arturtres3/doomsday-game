@@ -1,9 +1,19 @@
 // Funcionamento do jogo
 
+/**
+ * Retorna data aleatória no intervalo informado
+ * @param {Date} start
+ * @param {Date} end 
+ * @returns {Date} Data aleatoria
+ */
 function randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
+/**
+ * Funcionalidade do botao "Apply Range". 
+ * Define variaveis de intervalo, salva e gera nova data (se necessario)
+ */
 function applyUserRange(){
 
     setRange(document.getElementById('since').value,
@@ -11,10 +21,16 @@ function applyUserRange(){
 
     saveRange()
 
-    // conferir de data atual esta no intervalo, se estiver não gerar nova data
-    setNewDate(randomDate(startDate, endDate))
+    // confere se data atual esta no novo intervalo, se estiver não gerar nova data
+    if(currentDate < startDate || currentDate > endDate)
+        setNewDate(randomDate(startDate, endDate))
 }
 
+/**
+ * Aplica intervalo definido pelo usuário
+ * @param {int} start - ano inicio do intervalo (inclusivo)
+ * @param {int} end - ano final do intervalo (não inclusivo)
+ */
 function setRange(start, end){
     document.getElementById('since').value = start
     document.getElementById('until').value = end
@@ -23,6 +39,10 @@ function setRange(start, end){
     endDate = new Date(end, 0, 1)
 }
 
+/**
+ * Define a data da pergunta
+ * @param {Date} newDate - nova data da pergunta
+ */
 function setNewDate(newDate){
     document.getElementById("full_date").innerHTML = newDate.toLocaleDateString(language, {year: 'numeric', month: 'long', day: 'numeric' })
     document.getElementById("date-num").innerHTML = newDate.toLocaleDateString(language)
@@ -33,7 +53,7 @@ function setNewDate(newDate){
 /**
  * Cria elemento do histórico
  * @param {Date} date - data da pergunta
- * @param {int} answer - resposta no form
+ * @param {int} answer - resposta para a data
  * @param {boolean} isNew - nova resposta ou carregando historico da mem local 
  */
 function makeHistoryEntry(date, answer, isNew){
@@ -67,6 +87,10 @@ function makeHistoryEntry(date, answer, isNew){
     if(isNew){highlight(newHist)}
 }
 
+/**
+ * Funcionalidade do botao "Clear History".
+ * Zera lista na variavel e na memoria. Remove elementos de historico.
+ */
 function clearHistory(){
     historyList = []
     localStorage.removeItem('history')
@@ -75,6 +99,10 @@ function clearHistory(){
     }
 }
 
+/**
+ * Funcionalidade do botao "Submit".
+ * Cria entrada no historico com a data atual e gera nova data.
+ */
 function submitAnswer(){
     const formData = Object.fromEntries(new FormData(answer).entries());
 

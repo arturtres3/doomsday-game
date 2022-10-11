@@ -22,7 +22,11 @@ let endDate = new Date(2100, 0, 1)
 let currentDate = new Date() 
 let historyList = []
 
-
+/**
+ *  Transforma numeros 0-6 em strings para dias da semana na lingua da pagina
+ * @param {int} dayIndex 
+ * @returns {string} string para dia da semana
+ */
 function dayOfWeekAsString(dayIndex) {
     if(language == "pt-BR")
         return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
@@ -30,25 +34,41 @@ function dayOfWeekAsString(dayIndex) {
         return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
 }
 
-// salva dados no armazenamento local
+/**
+ *  Salva lista de historico no armazenamento local
+ * @param {Array} histList 
+ */
 function saveHistory(histList){
     localStorage.setItem('history', JSON.stringify(histList))
 }
 
+/**
+ * Salva intervalo de datas atual no armazenamento local
+ */
 function saveRange(){
     localStorage.setItem('start_date', startDate.toLocaleDateString("pt-BR", {year: 'numeric'}) )
     localStorage.setItem('end_date', endDate.toLocaleDateString("pt-BR", {year: 'numeric'}) )
 }
 
+/**
+ * Salva no armazenamento local se o modo escuro esta ligado
+ */
 function saveDarkMode(){
     localStorage.setItem('dark_mode', dark_mode.checked)
 }
 
-// recupera dados do armazenamento local
+/**
+ * Recupera lista de historico salva no armazenamento local 
+ * @returns {Array} lista de historico que esta no armazenamento local
+ */
 function retrieveHistory(){
     return JSON.parse(localStorage.getItem('history')) || []
 }
 
+/**
+ * Recupera valores de intervalo salvos no armazenamento local e aplica para variaveis de intervalo.
+ * So eh usado ao carregar a pagina, por isso faz as duas funcoes.
+ */
 function retrieveAndSetRange(){
     const start = JSON.parse(localStorage.getItem('start_date')) || 1900
     const end = JSON.parse(localStorage.getItem('end_date')) || 2100
@@ -56,6 +76,10 @@ function retrieveAndSetRange(){
     setRange(Number(start), Number(end))
 }
 
+/**
+ * Recupera valor de dark_mode salvo no armazenamento local e aplica para pagina.
+ * So eh usado ao carregar a pagina, por isso faz as duas funcoes.
+ */
 function retrieveAndSetDarkMode(){
     dark_mode.checked = localStorage.getItem('dark_mode') === "true"
     dark_mode.dispatchEvent(new Event('change'))
