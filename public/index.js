@@ -78,13 +78,14 @@ function clearHistory(){
 function submitAnswer(){
     const formData = Object.fromEntries(new FormData(answer).entries());
 
-    // if answer = empty, não enviar
+    // se nao tiver resposta, nao envia
+    if(formData.answer) {    
+        makeHistoryEntry(currentDate, formData.answer, true)
+        historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
+        
+        setNewDate(randomDate(startDate, endDate))
 
-    makeHistoryEntry(currentDate, formData.answer, true)
-    historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
-    
-    setNewDate(randomDate(startDate, endDate))
-
-    answer.reset()
+        answer.reset()
+    }
 }
 
