@@ -78,7 +78,7 @@ body {
 
 #navbar{  
   display: block;
-  padding: 10% 0 0 0;
+  padding: 5% 0 0 0;
   float: left;
   width: 20%;
   list-style-type: none;
@@ -103,10 +103,20 @@ body {
 #navbar .range{
   float: right;
   font-size: 20px;
-  max-width: 100px;
+  max-width: 70px;
 }
 #hamburger{
   display: none;
+}
+
+#navbar .day-training{
+  float: left;
+  font-size: 20px;
+  max-width: 40px;
+  margin-left: 30px;
+}
+#navbar .game-modes{
+  text-align: right;
 }
 
 

@@ -7,12 +7,15 @@
     <% const days = {
         'en' : ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
         'pt' : ["Domingo", "Segunda","Terça","Quarta","Quinta","Sexta","Sábado"]
-    }%>
+    }
+    %>
 
     <% const page = {
         'en' : ["From: ", "Until: ", "Apply Range" , "Clear History", "Submit", "History"],
         'pt' : ["Desde: ", "Até: ", "Aplicar Intervalo", "Apagar Histórico", "Enviar", "Histórico"]
-    }%>
+    } 
+    %>
+
 
   </head>
 
@@ -28,6 +31,22 @@
         Dark mode
         <label class="switch">
           <input id="dark-mode" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </li>
+      <li class="game-modes">
+        <input id="day-training-input" class="day-training" type="number" min="0" max="6" value="0">
+        Day &nbsp;&nbsp;&nbsp;
+        <label class="switch">
+          <input id="day-training" type="checkbox">
+          <span class="slider"></span>
+        </label>
+        
+      </li>
+      <li class="game-modes">
+        Year &nbsp;&nbsp;&nbsp;
+        <label class="switch">
+          <input id="year-training" type="checkbox">
           <span class="slider"></span>
         </label>
       </li>

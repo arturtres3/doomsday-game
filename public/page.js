@@ -59,6 +59,27 @@ dark_mode.onchange = () => {
     saveDarkMode()
 }
 
+day_training.onchange = () => {
+    if (day_training.checked){
+        year_training.checked = false
+        dayTraining()
+    }else{
+        retrieveAndSetRange() // recupera intervalo anterior
+        setNewDate(randomDate(startDate, endDate))
+    }
+    
+}
+
+year_training.onchange = () => {
+    if (year_training.checked){
+        day_training.checked = false
+        retrieveAndSetRange()  // recupera intervalo anterior caso day_training estava ativado antes
+        yearTraining()
+    }else{
+        setNewDate(randomDate(startDate, endDate))
+    }
+}
+
 clear_hist.addEventListener('click', () => {
     clearHistory()
 })

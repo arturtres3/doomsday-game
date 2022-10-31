@@ -111,9 +111,33 @@ function submitAnswer(){
         makeHistoryEntry(currentDate, formData.answer, true)
         historyList.push({date: JSON.stringify(currentDate), answer: formData.answer})
         
-        setNewDate(randomDate(startDate, endDate))
+        if(year_training.checked){
+            setNewDate(fixedDay(randomDate(startDate, endDate)))
+        }else{
+            setNewDate(randomDate(startDate, endDate))
+        }
 
         answer.reset()
     }
 }
 
+/**
+ *  Funcionalidade do slider Day. Seleciona o ano correspondente ao doomsday selecionado e o aplica no intervalo. Gera nova data
+ */
+function dayTraining(){
+    let year = yearsDayTraining[day_training_input.value]
+
+    setRange(year, year+1)
+    
+    setNewDate(randomDate(startDate, endDate))
+
+}
+
+/**
+ * Funcionalidade do slide Year. Define uma nova data com dia fixo em doomsday
+ */
+function yearTraining(){
+    
+    setNewDate(fixedDay(randomDate(startDate, endDate)))
+
+}

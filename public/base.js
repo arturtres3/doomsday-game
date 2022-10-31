@@ -11,9 +11,13 @@ const clear_hist = document.getElementById("clear-hist");
 const apply_range = document.getElementById("apply-range");
 const hamburger = document.getElementById("hamburger");
 const range_inputs = document.getElementsByClassName("range");
+const day_training = document.getElementById("day-training");
+const day_training_input = document.getElementById("day-training-input");
+const year_training = document.getElementById("year-training");
 const root = document.querySelector(':root');
 
 const language = document.documentElement.lang == 'pt' ? 'pt-BR' : 'en-US'
+const yearsDayTraining = [1700, 2022, 2023, 1900, 2002, 1800, 2026] // index = doomsday
 
 // valores iniciais padrão
 let startDate = new Date(1900, 0, 1)
@@ -32,6 +36,17 @@ function dayOfWeekAsString(dayIndex) {
         return ["domingo", "segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][dayIndex] || '';
     else
         return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
+}
+
+/**
+ * 
+ * @param {Date} date
+ * @returns {Date} data com dia e mês 04/04
+ */
+function fixedDay(date){
+    date.setDate(4)
+    date.setMonth(3) // dia 04/04 doomsday
+    return date
 }
 
 /**
