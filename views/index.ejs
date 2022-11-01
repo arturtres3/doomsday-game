@@ -65,7 +65,7 @@
 
         <% for(let i = 0; i <= 6; i++) {%>
             <input type="radio" id="<%= i %>" name="answer" value="<%= i %>" />
-            <label class="radio-label" for="<%= i %>"> <%= days[lang][i] %> </label>
+            <label title="<%= i %>" class="radio-label" for="<%= i %>"> <%= days[lang][i] %> </label>
         <% }; %>
 
       </form>

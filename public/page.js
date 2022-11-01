@@ -24,14 +24,18 @@ document.addEventListener('keyup', function (event) {
 
     let key = event.key || event.keyCode;
 
-    // colocar seletores nas teclas numérica
-    // domingo = 0, segunda = 1, ...
-
+    // Enter envia resposta
     if (key === 'Enter' || key === 13){
-        if(!submit.classList.contains("disable")){
-            // submit.click()
+        submitAnswer()
+    }
+
+    // numerais de 0-6 selecionam dias da semana 
+    for(let i = 0; i <= 6 ; i++){
+        if (key === i.toString() || key === i){
+            document.getElementById(i.toString()).click()
         }
     }
+
 })
 
 hamburger.addEventListener('click', () => {
